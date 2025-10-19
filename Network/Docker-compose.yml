@@ -1,0 +1,20 @@
+services:
+  ubuntu1:
+    build: .
+    container_name: first
+    command: sleep infinity # Контейнер не завершится сразу
+    privileged: true
+    networks:
+      - test-net
+
+  ubuntu2:
+    build: .
+    container_name: second
+    command: sleep infinity
+    privileged: true
+    networks:
+      - test-net
+
+networks:
+  test-net:
+    driver: bridge
