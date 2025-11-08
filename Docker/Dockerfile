@@ -1,6 +1,12 @@
-FROM debian:bullseye-slim as base
+FROM ubuntu:24.04 AS base
 
-RUN apt-get update && apt-get install -y nginx
+RUN apt-get update \
+    && apt-get install -y nginx
+
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
-CMD ["nginx", "-g", "daemon off;"]
+WORKDIR /tmp
+
+RUN apt install -y net-tools
+
+CMD ["/bin/bash"]
