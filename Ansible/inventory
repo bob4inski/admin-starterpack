@@ -1,0 +1,2 @@
+[my-nginx]
+local-nginx ansible_host=localhost ansible_user=bob4inski ansible_password=1

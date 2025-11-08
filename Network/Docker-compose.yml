@@ -2,7 +2,7 @@ services:
   ubuntu1:
     build: .
     container_name: first
-    command: sleep infinity # Контейнер не завершится сразу
+    command: sleep infinity
     privileged: true
     networks:
       - test-net
