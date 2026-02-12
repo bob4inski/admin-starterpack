@@ -1,0 +1,34 @@
+---
+- name: Base playbook
+  hosts: base-host
+  become: yes
+  become_user: root
+  become_method: sudo
+  gather_facts: True
+  pre_tasks:
+    - name: Gather minimal facts
+      ansible.builtin.setup:
+        gather_subset: "!all,min"
+      tags:
+        - always
+
+  tasks:
+
+    - name: print hostname
+      ansible.builtin.command: hostname
+
+    - name: install nginx package
+      apt:
+        update_cache: yes
+        name: nginx
+        state: latest
+
+    - name: Get nginx version
+      ansible.builtin.command: nginx -v
+      register: nginx_version
+      ignore_errors: yes
+
+    - name: Show nginx version if installed
+      ansible.builtin.debug:
+        msg: "{{ nginx_version.stderr }}"
+      when: nginx_version.rc == 0

@@ -1,0 +1,19 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for nginx
+
+- name: install nginx package
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: copy nginx index.html
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - restart nginx
