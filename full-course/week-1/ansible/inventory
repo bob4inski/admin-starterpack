@@ -1,2 +1,2 @@
 [base-host]
-bubuntu ansible_host=192.168.31.76 ansible_user=bob4inski ansible_become_password=boba ansible_password=boba
+bubuntu ansible_host=172.20.10.11 ansible_user=bob4inski ansible_become_password=boba ansible_password=boba
