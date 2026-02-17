@@ -1,0 +1,13 @@
+datasource:
+  Ec2:
+  strict_id: false
+ssh_pwauth: no
+serial-port-enable: true
+
+users:
+  - name: bob4inski
+    groups: sudo
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh-authorized-keys:
+      - ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLdkCXZ3COswcvSrNYRndfbQykE1icJbMCMbZcad4Dty6JbILrbDtD89wkU1uGw57woQhaoF0yFX4P7wM/4vc40= # Skotty bob4inski@legacy
