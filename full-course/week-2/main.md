@@ -31,7 +31,7 @@ root@bob4inski-1:~#
 
 ### Уровни изоляции БД
 
-#### Как выбирать даныне
+#### Как выбирать БДшку
 
 - простое
 - бекапы
@@ -39,11 +39,33 @@ root@bob4inski-1:~#
 
 
 ### Эксплуатация
+
 ### HBA conf
 ### Тунинг параметров в БД
-### Бекапы
-###
 
+### Представления
+1. VIEW - можно сказать alias на запрос
+```sql
+CREATE VIEW good_users AS
+SELECT name, surname
+FROM users
+WHERE mark > 80;
+```
+2. MATERIALIZED VIEW - полный снимок данных на момент выполнения запроса
+```sql
+CREATE MATERIALIZED VIEW good_users AS
+SELECT name, surname
+FROM users
+WHERE mark > 80;
+```
+
+
+### Бекапы
+
+
+
+
+-------
 ```sql
 CREATE TABLE mvcc_test (
     id serial PRIMARY KEY,
@@ -68,3 +90,4 @@ SELECT name, context FROM pg_settings
 WHERE context = 'sighup';
 
 SELECT pg_reload_conf();
+```

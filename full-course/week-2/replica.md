@@ -1,3 +1,5 @@
+## Мини гайд как создавать репилики
+1. На мастере надо проверить конфигурацию на каких адресах слушает PG и какой уровень wal указывать
 ```bash
 # root@bob4inski-1:~# cat /etc/postgresql/16/main/conf.d/replica.conf
 
@@ -6,23 +8,46 @@ wal_level = replica
 max_wal_senders = 5
 wal_keep_size = 128MB
 hot_standby = on
-
+```
+2. Создать пользователя для репликации и дать ему прав
+```bash
 # /etc/postgresql/16/main/pg_hba.conf
-# IPv4 local connections:
-host    all             all             127.0.0.1/32            scram-sha-256
-# IPv6 local connections:
-host    all             all             ::1/128                 scram-sha-256
-# Allow replication connections from localhost, by a user with the
-# replication privilege.
 host    replication   repuser         10.130.0.4/32      trust
-
-local   replication     all                                     peer
-host    replication     all             127.0.0.1/32            scram-sha-256
-host    replication     all             ::1/128                 scram-sha-256
 # root@bob4inski-1:~#
 ```
-
+3. C помощью pg_basebackup можно копипастнуть базку с мастера на реплику
 ```bash
-pg_basebackup -h 10.130.0.12 -D /var/lib/postgresql/16/main -U repuser -P -R
-
+pg_basebackup
 ```
+
+4. Запустить хост
+
+
+Домашка:
+0. Поднять 2 виртуалки
+0. Воткнуть дополнительный диск в вашу виртуалку (но можно просто выделить партицию на текущем диске) в качестве отдельного диска под данные базы
+1. установить postgresql
+Руками проинициализировать инстанс БД с данными в папке /pg_data/16/
+
+1. На Первой виртуалке
+    3. Создать отдельного пользователя pgbench с правами на database bench
+    3. подключить несколько модулей https://postgrespro.ru/docs/postgrespro/18/installing-additional-modules
+    4. настроить логирование всех запросов
+    5. c помощью утилиты pgbench проведите нагрузочное тестирование на базку
+    6. После завершения нагрузочного тестирования, получите список самых ресурсоемких по IO time write и самых длительных запросов (execution time) из представления pg_stat_statements
+    7. логах показать что делал pg_bench
+
+    8. Создать пользователя для репликации
+    9. Настроить доступы пользователю чтобы с другой виртуалки можно было подключиться
+
+2. На второй виртуалке (физическая репликация)
+    1. Сделать Дамп базы из 1 виртуалки (`pg_basebackup`)
+    2. Настроить репликацию на этом сервере
+
+3. (логическая репликация)
+    1. поднять еще один инстанс БД на второй виртуалке с данными в /pg_data/16-one-base/
+    1. Поднять слот логической репликации на мастере только для одной таблицы
+    2. Подключиться к слоту логической репликации на второй виртуалке
+
+** - Настройках хостов должна проходить через ansible
+Настройку слотов логической репликации можно сделать руками

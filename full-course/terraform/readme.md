@@ -35,3 +35,4 @@ export SECRET_KEY="<secret_key>"
 ### Куда смотреть за мануалами
 - https://yandex.cloud/ru/docs/terraform/tutorials/terraform-modules#configure-terraform
 - https://yandex.cloud/ru/docs/tutorials/infrastructure-management/terraform-quickstart#install-terraform
+
