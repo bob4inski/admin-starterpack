@@ -44,29 +44,5 @@ services:
         condition: service_started
     restart: unless-stopped
 
-  pgbouncer:
-    image: pgbouncer/pgbouncer:latest  # ⭐ Официальный образ с SCRAM
-    container_name: pgbouncer
-    environment:
-      DATABASES_HOST: postgres
-      DATABASES_PORT: 5432
-      DATABASES_DBNAME: ${PG_NAME}
-      DATABASES_USER: ${PG_USER}
-      DATABASES_PASSWORD: ${PG_PASSWORD}
-      PGBOUNCER_POOL_MODE: transaction
-      PGBOUNCER_MAX_CLIENT_CONN: 100
-      PGBOUNCER_DEFAULT_POOL_SIZE: 20
-      PGBOUNCER_AUTH_TYPE: scram-sha-256  # ⭐ SCRAM поддержка!
-      PGBOUNCER_AUTH_FILE: /etc/pgbouncer/userlist.txt
-    ports:
-      - "6432:6432"
-    volumes:
-      - ./pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
-      - ./userlist.txt:/etc/pgbouncer/userlist.txt
-    depends_on:
-      postgres:
-        condition: service_healthy
-    restart: unless-stopped
-
 volumes:
   postgres_data:
