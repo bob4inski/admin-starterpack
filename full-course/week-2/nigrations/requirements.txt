@@ -1,0 +1,5 @@
+yoyo-migrations
+setuptools
+Flask==3.0.0
+psycopg2-binary
+python-dotenv==1.0.0
