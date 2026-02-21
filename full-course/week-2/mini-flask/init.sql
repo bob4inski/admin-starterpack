@@ -10,9 +10,8 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (name, surname, age, city)
-SELECT
-    (ARRAY['John', 'Mike', 'Tom', 'Alex', 'Chris'])[floor(random() * 5 + 1)],
-    (ARRAY['Smith', 'Brown', 'Johnson', 'Taylor', 'Davis'])[floor(random() * 5 + 1)],
+SELECT (ARRAY['John', 'Mike', 'Tom', 'Alex', 'Chris'])[floor(random() * 5 + 1)],
+(ARRAY['Smith', 'Brown', 'Johnson', 'Taylor', 'Davis'])[floor(random() * 5 + 1)],
     floor(random() * 50 + 20)::int,  -- Age 20-69
     (ARRAY['New York', 'Chicago', 'Boston', 'Seattle', 'Austin'])[floor(random() * 5 + 1)]
 FROM generate_series(1, 100000) AS i;
